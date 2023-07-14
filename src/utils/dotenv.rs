@@ -4,6 +4,7 @@ pub fn read_env_vars() -> Vec<(String, String)> {
     let mut env_vars = Vec::new();
     let keys = vec![
         "RPC_URL_WSS",
+        "RPC_URL_HTTP",
         "PRIVATE_KEY",
     ];
     for key in keys {
@@ -17,7 +18,7 @@ pub fn read_env_vars() -> Vec<(String, String)> {
 }
 
 pub async fn get_ws_provider() -> Provider<Ws> {
-    let env_var = "RPC_URL";
+    let env_var = "RPC_URL_WS";
     let url = 
         dotenv::var(&env_var).expect(format!("{} not found in .env file", env_var).as_str());
     Provider::<Ws>::connect(url)
@@ -26,7 +27,7 @@ pub async fn get_ws_provider() -> Provider<Ws> {
 }
 
 pub async fn get_http_provider() -> Provider<Http> {
-    let env_var = "RPC_URL_HTTP_{}";
+    let env_var = "RPC_URL_HTTP";
     let url = 
         dotenv::var(&env_var).expect(format!("{} not found in .env file", env_var).as_str());
     Provider::<Http>::try_from(url)
